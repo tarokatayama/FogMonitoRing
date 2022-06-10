@@ -33,3 +33,14 @@ spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, tz="", format = "%Y-%m-%d %H
 
 summary(spicyraw)
 ```
+
+```{r}
+batteryplot<- ggplot(spicyraw, aes(x=TIMESTAMP, y=BattV_Avg))+
+  geom_point()+scale_x_date(date_labels = ("%m-%d"))
+batteryplot
+
+lwsinitial<- ggplot(spicyraw, aes(x=TIMESTAMP, y= LWmV_17ft_Avg))+
+  geom_point()
+lwsinitial
+```
+
