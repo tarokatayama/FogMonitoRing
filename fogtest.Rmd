@@ -1,5 +1,5 @@
 ---
-title: "fogtest"
+title: "spibuntest"
 author: "Taro Katayama"
 date: '2022-06-10'
 output: html_document
@@ -9,6 +9,8 @@ editor_options:
 
 ```{r}
 library(tidyverse)
+install.packages("RSAGA")
+library(RSAGA)
 library(dplyr)
 library(lubridate)
 #library(mapview)
@@ -18,5 +20,17 @@ library(knitr)
 library(Kendall)
 library(zoo)
 library(gridExtra)
+```
+
+```{r}
+fnm<- c("../FogMonitoring/raw_data/CR800Series_FogTable_SpicyBunker.dat")
+spicydat<- get.file.extension(fnm)
+spicycsv<- set.file.extension(fnm, extension = ".csv")
+spicyraw<-read.csv("")
+spicyraw
+
+spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, 
+                                tz="PST", format = "%m/%d/%y %H:%M")
+?as.POSIXct
 ```
 
