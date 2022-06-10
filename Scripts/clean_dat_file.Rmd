@@ -1,6 +1,6 @@
 ---
-title: "spibuntest"
-author: "Taro Katayama"
+title: "Clean CR800 .dat data file"
+author: "Taro Katayama & Brent Wilder"
 date: '2022-06-10'
 output: html_document
 editor_options: 
@@ -20,17 +20,20 @@ library(knitr)
 library(Kendall)
 library(zoo)
 library(gridExtra)
+library(readr)
 ```
 
 ```{r}
-fnm<- c("../FogMonitoring/raw_data/CR800Series_FogTable_SpicyBunker.dat")
-spicydat<- get.file.extension(fnm)
-spicycsv<- set.file.extension(fnm, extension = ".csv")
-spicyraw<-read.csv("")
-spicyraw
 
-spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, 
-                                tz="PST", format = "%m/%d/%y %H:%M")
-?as.POSIXct
+# Read to CSV 
+data <- read_csv("../FogMonitoring/raw_data/CR800Series_FogTable_SpicyBunker.dat")
+
+data
+
+
+
+#spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, 
+#                                tz="PST", format = "%m/%d/%y %H:%M")
+#?as.POSIXct
 ```
 
