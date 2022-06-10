@@ -24,11 +24,12 @@ library(readr)
 ```{r}
 
 # Read to CSV 
-data <- read_csv("../FogMonitoring/raw_data/CR800Series_FogTable_SpicyBunker.dat", skip = 1)
-mydata<- data[-c(1,2), ]
+data <- read.csv("../FogMonitoring/raw_data/CR800Series_FogTable_SpicyBunker.dat", skip = 1, stringsAsFactors = TRUE)
+#Take out the firs two rows
+spicyraw<- data[-c(1,2), ]
+#set timestamp as date
+str(spicyraw)
+spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, tz="", format = "%Y-%m-%d %H:%M")
 
-#spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, 
-#                                tz="PST", format = "%m/%d/%y %H:%M")
-#?as.POSIXct
+summary(spicyraw)
 ```
-
