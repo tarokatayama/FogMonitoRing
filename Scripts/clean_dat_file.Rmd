@@ -19,6 +19,7 @@ library(Kendall)
 library(zoo)
 library(gridExtra)
 library(readr)
+library(janitor)
 ```
 
 ```{r}
@@ -36,11 +37,61 @@ summary(spicyraw)
 
 ```{r}
 batteryplot<- ggplot(spicyraw, aes(x=TIMESTAMP, y=BattV_Avg))+
-  geom_point()+scale_x_date(date_labels = ("%m-%d"))
+  geom_point() + 
 batteryplot
 
 lwsinitial<- ggplot(spicyraw, aes(x=TIMESTAMP, y= LWmV_17ft_Avg))+
-  geom_point()
+  geom_point() + 
+  
 lwsinitial
+
+spicyraw2 <- spicyraw %>%
+  mutate(day = date(TIMESTAMP),
+         leaf = as.numeric(LWmV_17ft_Avg),
+         hour = hour(TIMESTAMP))
+
+spicyraw2$day <- as.factor(spicyraw2$day)
+
+days <- unique(spicyraw2$day)
+
+for(i in length(days)) {
+  
+  daydata <- filter(spicyraw2$day == days[i])
+  
+  ggplot(data = daydata,
+         mapping = aes(x = hour,
+                       y = LWmV_17ft_Avg))
+  ggsave(filename = paste0('plotday', days[i], '.png'))
+}
+
+lapply(days, ggsave(ggplot(...)))
+
+ggplot(data = spicyraw2,
+       aes(x = hour, y = LWmV_17ft_Avg, color = day)) + 
+  geom_point() +
+  scale_y_discrete(breaks = seq(200, 1000, 100)) + 
+  facet_wrap(~day) + 
+  theme(axis.text.x = element_text(angle = 90))
+
+View(spicyraw2)
+
+
+
+spicyraw3 <- pivot_longer(spicyraw2, BattV_Avg:LWMWet_66ft_Tot,  names_to = 'data_type', values_to = 'value')
+
+ggplot(data = spicyraw3,
+       mapping = aes(x = TIMESTAMP, y = value)) + 
+  geom_point() + 
+  facet_wrap(~data_type)
+
+
+
+spicyraw4 <- spicyraw2 %>%
+  select(AirT_C_Avg,AirT_C_Std, TIMESTAMP) %>%
+  ggplot(., 
+         mapping = aes(x = TIMESTAMP, y = AirT_C_Avg)) + 
+  geom_point()+
+  geom_errorbar()
+
 ```
 
