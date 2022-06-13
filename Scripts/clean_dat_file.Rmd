@@ -93,5 +93,13 @@ spicyraw4 <- spicyraw2 %>%
   geom_point()+
   geom_errorbar()
 
+ggplot(data = filter(sst, year %in% tenyrs), 
+       mapping = aes(x = year, y = surface_mean)) + 
+  geom_linerange(mapping = aes(x = year, 
+                               ymin = (surface_mean - surface_SD),
+                               ymax = (surface_mean + surface_SD)),
+                 color = 'gray70', size = 1) +
+  geom_point(size = 2, color = '#440154FF') + 
+
 ```
 
