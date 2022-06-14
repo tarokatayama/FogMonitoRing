@@ -58,8 +58,6 @@ SB_files
 
 SB<- SB_files %>%
   ldply(read.csv)
-  
-
 
 ```
 
@@ -73,7 +71,7 @@ lwsinitial<- ggplot(spicyraw, aes(x=TIMESTAMP, y= LWmV_17ft_Avg))+
   
 lwsinitial
 
-spicyraw2 <- spicyraw %>%
+spicyraw2 <- spicy_ultimate %>%
   mutate(day = date(TIMESTAMP),
          leaf = as.numeric(LWmV_17ft_Avg),
          hour = hour(TIMESTAMP))

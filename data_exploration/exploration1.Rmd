@@ -22,7 +22,6 @@ library(janitor)
 
 
 ```{r}
-```{r}
 batteryplot<- ggplot(spicyraw, aes(x=TIMESTAMP, y=BattV_Avg))+
   geom_point() + 
 batteryplot
