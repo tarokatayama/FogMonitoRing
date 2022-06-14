@@ -27,16 +27,26 @@ library(janitor)
 
 getwd()
 # Read to CSV 
-data <- read.csv("./raw_data/EB/20220613_CR800Series_FogTable_EB.dat", skip = 1, stringsAsFactors = TRUE)
+data <- read.csv("./raw_data/SB/20220613_CR800Series_FogTable_SB.dat", skip = 1, stringsAsFactors = TRUE)
 #Take out the first two rows
-spicyraw<- data[-c(1,2), ]
+spicyraw6_13<- data[-c(1,2), ]
 #set timestamp as date
 str(spicyraw)
-spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, tz="", format = "%Y-%m-%d %H:%M")
+spicyraw6_13$TIMESTAMP<- as.POSIXct(spicyraw6_13$TIMESTAMP, tz="", format = "%Y-%m-%d %H:%M")
+
+# Read to CSV 
+data2 <- read.csv("./raw_data/SB/20220610_CR800Series_FogTable_SB.dat", skip = 1, stringsAsFactors = TRUE)
+#Take out the first two rows
+spicyraw6_10<- data2[-c(1,2), ]
+#set timestamp as date
+spicyraw6_10$TIMESTAMP<- as.POSIXct(spicyraw6_10$TIMESTAMP, tz="", format = "%Y-%m-%d %H:%M")
+
+#joins datasets
+spicy_ultimate<- full_join(spicyraw6_13,spicyraw6_10)
+View(spicy_ultimate)
 
 #Save processed Raw to processed folder
-write.csv(spicyraw, row.names = FALSE, 
-          file = "./processed_data/SB/SB_Processed.csv")
+write.csv(spicy_ultimate, row.names = FALSE, file = "./processed_data/SB/SB_Processed.csv")
 ```
 
 ```{r}
