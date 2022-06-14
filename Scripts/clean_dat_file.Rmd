@@ -26,7 +26,7 @@ library(janitor)
 
 # Read to CSV 
 data <- read.csv("../FogMonitoring/raw_data/CR800Series_FogTable_SpicyBunker.dat", skip = 1, stringsAsFactors = TRUE)
-#Take out the firs two rows
+#Take out the first two rows
 spicyraw<- data[-c(1,2), ]
 #set timestamp as date
 str(spicyraw)
@@ -99,7 +99,7 @@ ggplot(data = filter(sst, year %in% tenyrs),
                                ymin = (surface_mean - surface_SD),
                                ymax = (surface_mean + surface_SD)),
                  color = 'gray70', size = 1) +
-  geom_point(size = 2, color = '#440154FF') + 
+  geom_point(size = 2, color = '#440154FF') 
 
 ```
 
