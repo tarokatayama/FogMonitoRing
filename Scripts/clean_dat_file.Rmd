@@ -8,8 +8,8 @@ editor_options:
 ---
 
 ```{r}
+library(plyr)
 library(tidyverse)
-library(dplyr)
 library(lubridate)
 #library(mapview)
 #mapviewOptions(fgb = FALSE)
@@ -34,12 +34,16 @@ spicyraw6_13<- data[-c(1,2), ]
 str(spicyraw)
 spicyraw6_13$TIMESTAMP<- as.POSIXct(spicyraw6_13$TIMESTAMP, tz="", format = "%Y-%m-%d %H:%M")
 
+write.csv(spicyraw6_13, row.names = FALSE, file = "./raw_data/SB/spicyraw6_13.csv")
+
 # Read to CSV 
 data2 <- read.csv("./raw_data/SB/20220610_CR800Series_FogTable_SB.dat", skip = 1, stringsAsFactors = TRUE)
 #Take out the first two rows
 spicyraw6_10<- data2[-c(1,2), ]
 #set timestamp as date
 spicyraw6_10$TIMESTAMP<- as.POSIXct(spicyraw6_10$TIMESTAMP, tz="", format = "%Y-%m-%d %H:%M")
+
+write.csv(spicyraw6_10, row.names = FALSE, file = "./raw_data/SB/spicyraw6_10.csv")
 
 #joins datasets
 spicy_ultimate<- full_join(spicyraw6_13,spicyraw6_10)
@@ -48,9 +52,15 @@ View(spicy_ultimate)
 #Save processed Raw to processed folder
 write.csv(spicy_ultimate, row.names = FALSE, file = "./processed_data/SB/SB_Processed.csv")
 
-SB_files = list.files(path = "./raw_data/SB/", pattern= "*.dat,",
-                      full.names = TRUE)
+#combine csv files (still working on this)
+SB_files = list.files(path = "./raw_data/SB/", pattern= "*.csv", full.names = TRUE)
 SB_files
+
+SB<- SB_files %>%
+  ldply(read.csv)
+  
+
+
 ```
 
 ```{r}
