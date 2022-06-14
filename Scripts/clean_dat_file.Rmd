@@ -32,17 +32,20 @@ stations = list("TP", "SB", "NN", "EB")
 
 for(i in stations){
 #combine csv files from raw data folder
-  SB_files = list.files(path = "./raw_data/[i]/", pattern= "*.dat", full.names = TRUE)
+  fog_files = list.files(path = paste("./raw_data/",i,"/", sep = ""),
+                        pattern= "*.dat", full.names = TRUE)
 
 # turn combination csv files to combined data frame
-SB<- SB_files %>%
+  fog_combo<- fog_files %>%
   ldply(read.csv, skip = 1, stringsAsFactors = TRUE)
 
 #Take out the first two rows
-SB_cleanup<-SB[-c(1,2), ]
+  fog_combo_clean<-SB[-c(1,2), ]
 
 #pull only unique rows
-SB_Processed<-unique(SB_cleanup)
+  fog_combo_processed<-unique(fog_combo_clean)
+#Save files to processed folder
+  write.csv(fog_combo_processed, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
 }
 
 ```
