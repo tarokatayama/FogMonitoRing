@@ -47,6 +47,10 @@ View(spicy_ultimate)
 
 #Save processed Raw to processed folder
 write.csv(spicy_ultimate, row.names = FALSE, file = "./processed_data/SB/SB_Processed.csv")
+
+SB_files = list.files(path = "./raw_data/SB/", pattern= "*.dat,",
+                      full.names = TRUE)
+SB_files
 ```
 
 ```{r}
