@@ -22,16 +22,20 @@ library(janitor)
 
 
 ```{r}
-batteryplot<- ggplot(spicyraw, aes(x=TIMESTAMP, y=BattV_Avg))+
-  geom_point() + 
-batteryplot
+
 
 lwsinitial<- ggplot(spicyraw, aes(x=TIMESTAMP, y= LWmV_17ft_Avg))+
   geom_point() + 
   
 lwsinitial
 
-spicyraw2 <- spicyraw %>%
+SB_Processed<- read.csv("./processed_data/SB/SB_Processed.csv")
+
+
+SB_Pr
+SB_ProcessedTIMESTAMP<- as.POSIXct(fog_combo_processed$TIMESTAMP,
+                                             tz="", format = "%Y-%m-%d %H:%M")
+SB_mutate <- SB_Processed %>%
   mutate(day = date(TIMESTAMP),
          leaf = as.numeric(LWmV_17ft_Avg),
          hour = hour(TIMESTAMP))

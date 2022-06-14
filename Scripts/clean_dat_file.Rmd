@@ -8,18 +8,11 @@ editor_options:
 ---
 
 ```{r}
+#run packages
 library(plyr)
 library(tidyverse)
 library(lubridate)
-#library(mapview)
-#mapviewOptions(fgb = FALSE)
-#library(sf)
-library(knitr)
-library(Kendall)
-library(zoo)
-library(gridExtra)
 library(readr)
-#install.packages("janitor")
 library(janitor)
 ```
 
@@ -40,81 +33,21 @@ for(i in stations){
   ldply(read.csv, skip = 1, stringsAsFactors = TRUE)
 
 #Take out the first two rows
-  fog_combo_clean<-SB[-c(1,2), ]
+  fog_combo_clean<-fog_combo[-c(1,2), ]
 
 #pull only unique rows
   fog_combo_processed<-unique(fog_combo_clean)
+
 #Save files to processed folder
   write.csv(fog_combo_processed, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
+  
 }
 
-```
+#in case you want visual confirmation that code worked
 
-```{r}
-batteryplot<- ggplot(spicyraw, aes(x=TIMESTAMP, y=BattV_Avg))+
-  geom_point() + 
-batteryplot
-
-lwsinitial<- ggplot(spicyraw, aes(x=TIMESTAMP, y= LWmV_17ft_Avg))+
-  geom_point() + 
-  
-lwsinitial
-
-spicyraw2 <- spicy_ultimate %>%
-  mutate(day = date(TIMESTAMP),
-         leaf = as.numeric(LWmV_17ft_Avg),
-         hour = hour(TIMESTAMP))
-
-spicyraw2$day <- as.factor(spicyraw2$day)
-
-days <- unique(spicyraw2$day)
-
-for(i in length(days)) {
-  
-  daydata <- filter(spicyraw2$day == days[i])
-  
-  ggplot(data = daydata,
-         mapping = aes(x = hour,
-                       y = LWmV_17ft_Avg))
-  ggsave(filename = paste0('plotday', days[i], '.png'))
-}
-
-lapply(days, ggsave(ggplot(...)))
-
-ggplot(data = spicyraw2,
-       aes(x = hour, y = LWmV_17ft_Avg, color = day)) + 
-  geom_point() +
-  scale_y_discrete(breaks = seq(200, 1000, 100)) + 
-  facet_wrap(~day) + 
-  theme(axis.text.x = element_text(angle = 90))
-
-View(spicyraw2)
-
-
-
-spicyraw3 <- pivot_longer(spicyraw2, BattV_Avg:LWMWet_66ft_Tot,  names_to = 'data_type', values_to = 'value')
-
-ggplot(data = spicyraw3,
-       mapping = aes(x = TIMESTAMP, y = value)) + 
-  geom_point() + 
-  facet_wrap(~data_type)
-
-
-
-spicyraw4 <- spicyraw2 %>%
-  select(AirT_C_Avg,AirT_C_Std, TIMESTAMP) %>%
-  ggplot(., 
-         mapping = aes(x = TIMESTAMP, y = AirT_C_Avg)) + 
-  geom_point()+
-  geom_errorbar()
-
-ggplot(data = filter(sst, year %in% tenyrs), 
-       mapping = aes(x = year, y = surface_mean)) + 
-  geom_linerange(mapping = aes(x = year, 
-                               ymin = (surface_mean - surface_SD),
-                               ymax = (surface_mean + surface_SD)),
-                 color = 'gray70', size = 1) +
-  geom_point(size = 2, color = '#440154FF') 
-
+TP_Processed<- read.csv("./processed_data/TP/TP_processed.csv")
+NN_Processed<- read.csv("./processed_data/NN/NN_processed.csv")
+EB_Processed<- read.csv("./processed_data/EB/EB_processed.csv")
+SB_Processed<- read.csv("./processed_data/SB/SB_Processed.csv")
 ```
 
