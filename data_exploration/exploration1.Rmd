@@ -1,12 +1,9 @@
 ---
-title: "Clean CR800 .dat data file"
-author: "Taro Katayama & Brent Wilder"
-date: '2022-06-10'
+title: "exploration1"
+author: "Taro Katayama"
+date: '2022-06-14'
 output: html_document
-editor_options: 
-  chunk_output_type: console
 ---
-
 ```{r}
 library(tidyverse)
 library(dplyr)
@@ -19,26 +16,12 @@ library(Kendall)
 library(zoo)
 library(gridExtra)
 library(readr)
-#install.packages("janitor")
 library(janitor)
 ```
-
-```{r}
-
-getwd()
-# Read to CSV 
-data <- read.csv("./raw_data/EB/20220613_CR800Series_FogTable_EB.dat", skip = 1, stringsAsFactors = TRUE)
-#Take out the first two rows
-spicyraw<- data[-c(1,2), ]
-#set timestamp as date
-str(spicyraw)
-spicyraw$TIMESTAMP<- as.POSIXct(spicyraw$TIMESTAMP, tz="", format = "%Y-%m-%d %H:%M")
-
-#Save processed Raw to processed folder
-write.csv(spicyraw, row.names = FALSE, 
-          file = "./processed_data/SB/SB_Processed.csv")
 ```
 
+
+```{r}
 ```{r}
 batteryplot<- ggplot(spicyraw, aes(x=TIMESTAMP, y=BattV_Avg))+
   geom_point() + 
@@ -105,5 +88,11 @@ ggplot(data = filter(sst, year %in% tenyrs),
                  color = 'gray70', size = 1) +
   geom_point(size = 2, color = '#440154FF') 
 
+```
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
