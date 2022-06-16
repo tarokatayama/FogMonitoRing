@@ -9,6 +9,7 @@ editor_options:
 
 ```{r}
 #run packages
+library(dplyr)
 library(plyr)
 library(tidyverse)
 library(lubridate)
@@ -26,14 +27,15 @@ for(i in stations){
   # read in all .dat files to csv
   df<-list.files(path = paste("./raw_data/",i,"/", sep = ""),
               pattern="*.dat", 
-              full.names = TRUE) %>% 
-  df(~read_csv(.))
+              full.names = TRUE) %>%
+  ldply(read.csv, skip = 1, stringsAsFactors = TRUE)
   
   # pull only unique rows
-  df<-unique(df)
+  df <- unique(df)
   
   # remove rows containing units/std/avg text
   df <- df[!is.na(as.numeric=(df$RECORD)), ]
+  
   
   # save files to processed folder
   write.csv(df, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
