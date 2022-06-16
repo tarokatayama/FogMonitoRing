@@ -29,12 +29,11 @@ for(i in stations){
               pattern="*.dat", 
               full.names = TRUE) %>%
   ldply(read.csv, skip = 1, stringsAsFactors = TRUE)
-  
   # pull only unique rows
   df <- unique(df)
   
   # remove rows containing units/std/avg text
-  df <- df[!is.na(as.numeric=(df$RECORD)), ]
+df<- sapply(df, as.numeric)
   
   
   # save files to processed folder
@@ -42,9 +41,16 @@ for(i in stations){
   
 }
 
+
+
+
+```
+
+```{r}
 # in case you want visual confirmation that code worked
 TP_Processed<- read.csv("./processed_data/TP/TP_processed.csv")
 NN_Processed<- read.csv("./processed_data/NN/NN_processed.csv")
 EB_Processed<- read.csv("./processed_data/EB/EB_processed.csv")
 SB_Processed<- read.csv("./processed_data/SB/SB_Processed.csv")
 ```
+
