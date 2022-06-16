@@ -3,6 +3,8 @@ title: "exploration1"
 author: "Taro Katayama"
 date: '2022-06-14'
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r}
 library(tidyverse)
@@ -22,18 +24,17 @@ library(janitor)
 
 
 ```{r}
-
+SB_Processed<-read.csv
 
 lwsinitial<- ggplot(spicyraw, aes(x=TIMESTAMP, y= LWmV_17ft_Avg))+
   geom_point() + 
   
 lwsinitial
 
-SB_Processed<- read.csv("./processed_data/SB/SB_Processed.csv")
 
+SB_Processed
 
-SB_Pr
-SB_ProcessedTIMESTAMP<- as.POSIXct(fog_combo_processed$TIMESTAMP,
+SB_Processed$TIMESTAMP<- as.POSIXct(fog_combo_processed$TIMESTAMP,
                                              tz="", format = "%Y-%m-%d %H:%M")
 SB_mutate <- SB_Processed %>%
   mutate(day = date(TIMESTAMP),

@@ -3,10 +3,57 @@ title: "exploration1"
 author: "Taro Katayama"
 date: '2022-06-14'
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+
+
+
+SB_Processed<-read.csv("./processed_data/SB/SB_Processed.csv")
+SB_Processed$TIMESTAMP<- as.POSIXct(SB_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
+
+SB_mutate <- SB_Processed %>%
+  mutate(day = date(TIMESTAMP),
+         leaf = as.numeric(LWmV_17ft_Avg),
+         hour = hour(TIMESTAMP))
+
+SB_mutate$day<- as.factor(SB_mutate$day)
+
+
+SB_initial_plot<- ggplot(data = SB_mutate,
+       aes(x = hour, y = LWmV_17ft_Avg, color = day)) + 
+  geom_point() +
+  scale_y_discrete(breaks = seq(200, 1000, 100)) + 
+  facet_wrap(~day) + 
+  theme(axis.text.x = element_text(angle = 90))
+SB_initial_plot
+```
+
+```{r}
+NN_Processed<-read.csv("./processed_data/NN/NN_processed.csv")
+NN_Processed$TIMESTAMP<- as.POSIXct(NN_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
+
+NN_mutate <- NN_Processed %>%
+  mutate(day = date(TIMESTAMP),
+         leaf = as.numeric(LWmV_66ft_Avg),
+         hour = hour(TIMESTAMP))
+
+NN_mutate$day<- as.factor(NN_mutate$day)
+
+
+NN_initial_plot<- ggplot(data = NN_mutate,
+       aes(x = hour, y = LWmV_66ft_Avg, color = day)) + 
+  geom_point() + 
+  facet_wrap(~day) + 
+  theme(axis.text.x = element_text(angle = 90))
+NN_initial_plot
 ```
 
 ## R Markdown
