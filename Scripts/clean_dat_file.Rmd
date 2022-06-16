@@ -24,20 +24,19 @@ stations = list("TP", "SB", "NN", "EB")
 for(i in stations){
 
   # read in all .dat files to csv
-  list.files(path = paste("./raw_data/",i,"/", sep = ""),
+  df<-list.files(path = paste("./raw_data/",i,"/", sep = ""),
               pattern="*.dat", 
-              full.names = T) %>% 
+              full.names = TRUE) %>% 
   df(~read_csv(.))
   
-  # NOTE: THIS NEEDS TO HAPPEN BEFORE/DURING MERGING TO HAVE CONTINUOUS
-  # take out the first two rows
-  fog_combo_clean<-df[-c(1,2), ]
-  
   # pull only unique rows
-  fog_combo_processed<-unique(fog_combo_clean)
+  df<-unique(df)
+  
+  # remove rows containing units/std/avg text
+  df<- subset(df, RECORD >= 0)
   
   # save files to processed folder
-  write.csv(fog_combo_processed, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
+  write.csv(df, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
   
 }
 
