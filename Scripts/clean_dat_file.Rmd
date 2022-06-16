@@ -28,21 +28,21 @@ for(i in stations){
   df<-list.files(path = paste("./raw_data/",i,"/", sep = ""),
               pattern="*.dat", 
               full.names = TRUE) %>%
-  ldply(read.csv, skip = 1, stringsAsFactors = TRUE)
+  ldply(read.csv, skip = 1)
+  
+  # change to numeric
+  df[-1] <- sapply(df[-1], as.numeric)
+  
   # pull only unique rows
   df <- unique(df)
   
-  # remove rows containing units/std/avg text
-df<- sapply(df, as.numeric)
-  
+  # get rid of empty rows
+  df<- subset(df, RECORD >= 0)
   
   # save files to processed folder
   write.csv(df, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
   
 }
-
-
-
 
 ```
 
