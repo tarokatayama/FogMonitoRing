@@ -33,7 +33,7 @@ for(i in stations){
   df<-unique(df)
   
   # remove rows containing units/std/avg text
-  df<- subset(df, RECORD >= 0)
+  df <- df[!is.na(as.numeric=(df$RECORD)), ]
   
   # save files to processed folder
   write.csv(df, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
