@@ -1,0 +1,47 @@
+---
+title: "exploration1"
+author: "Taro Katayama"
+date: '2022-06-14'
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+```
+
+```{r}
+
+theday <- '2022-06-9'
+
+SB_Processed<- read.csv("./processed_data/SB/SB_processed_CR800.csv")
+SB_6_7<-SB_Processed%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day==theday)
+
+TP_Processed<- read.csv("./processed_data/TP/TP_processed_CR800.csv")
+TP_6_7<-TP_Processed%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day==theday)
+
+EB_Processed<- read.csv("./processed_data/EB/EB_processed_CR800.csv")
+EB_6_7<-EB_Processed%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day==theday)
+
+NN_Processed<- read.csv("./processed_data/NN/NN_processed_CR800.csv")
+NN_6_7<-NN_Processed%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day==theday)
+
+compareplot<- ggplot()+
+  geom_line(data = EB_6_7, aes(x = RECORD, y = LWmV_50ft_Avg))+
+  geom_point(data= EB_6_7, aes(x = RECORD, y = LWmV_66ft_Avg)) +
+  geom_line(data= EB_6_7, aes(x = RECORD, y = LWmV_17ft_Avg, color="red"))+
+  theme(axis.text.x = element_text(angle = 90))
+
+compareplot
+```
