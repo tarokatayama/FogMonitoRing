@@ -43,7 +43,8 @@ NN_Processed$TIMESTAMP<- as.POSIXct(NN_Processed$TIMESTAMP,
 NN_mutate <- NN_Processed %>%
   mutate(day = date(TIMESTAMP),
          leaf = as.numeric(LWmV_66ft_Avg),
-         hour = hour(TIMESTAMP))
+         hour = hour(TIMESTAMP),
+         minute = minute(TIMESTAMP))
 
 NN_mutate$day<- as.factor(NN_mutate$day)
 
@@ -54,24 +55,61 @@ NN_initial_plot<- ggplot(data = NN_mutate,
   facet_wrap(~day) + 
   theme(axis.text.x = element_text(angle = 90))
 NN_initial_plot
+
+NN_6_7<- NN_mutate%>%
+  filter(day=='2022-06-13')
+
+SB_Processed<- read.csv("./processed_data/SB/SB_Processed.csv")
+SB_Processed$TIMESTAMP<- as.POSIXct(SB_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
+
+SB_6_7<-SB_Processed%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day=='2022-06-13')
+
+TP_Processed<- read.csv("./processed_data/TP/TP_Processed.csv")
+TP_Processed$TIMESTAMP<- as.POSIXct(TP_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
+
+TP_6_7<-TP_Processed%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day=='2022-06-13')
+
+compareplot<- ggplot()+
+  geom_line(data = TP_6_7, aes(x = TIMESTAMP, y = LWmV_50ft_Avg))+
+  geom_point(data= TP_6_7, aes(x = TIMESTAMP, y = LWmV_66ft_Avg)) +
+  geom_line(data= TP_6_7, aes(x = TIMESTAMP, y = LWmV_17ft_Avg, color="red"))+
+  theme(axis.text.x = element_text(angle = 90))
+compareplot
+
+
+Comparerhplot<- ggplot()+
+  geom_line(data = SB_6_7, aes(x = TIMESTAMP, y = RH_Avg))+
+  geom_line(data= NN_6_7, aes(x = TIMESTAMP, y = RH_Avg, color="red"))+
+  theme(axis.text.x = element_text(angle = 90))
+
+Comparerhplot
+
+
+Comparewindplot<- ggplot()+
+  geom_point(data = SB_6_7, aes(x = TIMESTAMP, y =WS_ms_Avg ))+
+  geom_point(data= NN_6_7, aes(x = TIMESTAMP, y = WS_ms_Avg, color="red",
+                               alpha=0.1))+
+  theme(axis.text.x = element_text(angle = 90))
+  
+
+Comparewindplot
 ```
 
-## R Markdown
+```{r}
+CompareRADplot<- ggplot(NN_6_7, aes(x = TIMESTAMP, y = SlrFD_W_Avg, color="red")) +
+  geom_point()+
+  theme(axis.text.x = element_text(angle = 90))
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+CompareRADplot
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+geom_point(data = SB_6_7, aes(x = TIMESTAMP, y =SlrFD_W_Avg))+
 
-```{r cars}
-summary(cars)
+CompareRADplot
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
