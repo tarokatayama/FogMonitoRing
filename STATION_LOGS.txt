@@ -3,5 +3,6 @@ STATION LOGS
 2022-06-06: NN Station installed
 2022-06-08: EB Station installed (without meteorological instrument)
 2022-06-09: TP Station installed (without meteorological instrument)
-2022-06-15: Two weather cameras installed at Cholla Minefield (CM) and Andrew's Finest (AF)
-2022-06-17: ....
+2022-06-15: Two weather cameras installed, Cholla Minefield (CM) and Andrew's Finest (AF)
+2022-06-17: EB LWS (50ft and 66ft), TP LWS (17ft), and NN LWS (17ft and 50ft) were raised to sit on top of the lemonade berry canopy
+2022-XXXXX: ....
