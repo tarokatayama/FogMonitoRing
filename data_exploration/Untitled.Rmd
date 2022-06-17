@@ -55,7 +55,7 @@ NN_initial_plot
 NN_6_7<- NN_mutate%>%
   filter(day=='2022-06-13')
 
-SB_Processed<- read.csv("./processed_data/SB/SB_processed.csv")
+SB_Processed<- read.csv("./processed_data/SB/SB_processed_CR800.csv")
 
 SB_6_7<-SB_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
