@@ -14,9 +14,7 @@ library(lubridate)
 
 
 
-SB_Processed<-read.csv("./processed_data/SB/SB_Processed.csv")
-SB_Processed$TIMESTAMP<- as.POSIXct(SB_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
+SB_Processed<-read.csv("./processed_data/SB/SB_processed_CR800.csv")
 
 SB_mutate <- SB_Processed %>%
   mutate(day = date(TIMESTAMP),
@@ -36,9 +34,7 @@ SB_initial_plot
 ```
 
 ```{r}
-NN_Processed<-read.csv("./processed_data/NN/NN_processed.csv")
-NN_Processed$TIMESTAMP<- as.POSIXct(NN_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
+NN_Processed<-read.csv("./processed_data/NN/NN_processed_CR800.csv")
 
 NN_mutate <- NN_Processed %>%
   mutate(day = date(TIMESTAMP),
@@ -59,17 +55,13 @@ NN_initial_plot
 NN_6_7<- NN_mutate%>%
   filter(day=='2022-06-13')
 
-SB_Processed<- read.csv("./processed_data/SB/SB_Processed.csv")
-SB_Processed$TIMESTAMP<- as.POSIXct(SB_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
+SB_Processed<- read.csv("./processed_data/SB/SB_processed.csv")
 
 SB_6_7<-SB_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day=='2022-06-13')
 
-TP_Processed<- read.csv("./processed_data/TP/TP_Processed.csv")
-TP_Processed$TIMESTAMP<- as.POSIXct(TP_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
+TP_Processed<- read.csv("./processed_data/TP/TP_processed_CR800.csv")
 
 TP_6_7<-TP_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
