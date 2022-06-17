@@ -39,8 +39,12 @@ for(i in stations){
   # get rid of empty rows
   df<- subset(df, RECORD >= 0)
   
+  # set TIMESTAMP to datetime data type
+  df$TIMESTAMP<- as.POSIXct(df$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
+  
   # save files to processed folder
-  write.csv(df, file = paste("./processed_data/",i,"/",i,"_processed.csv", sep = ""))
+  write.csv(df, file = paste("./processed_data/",i,"/",i,"_processed_CR800.csv", sep = ""))
   
 }
 
@@ -48,9 +52,9 @@ for(i in stations){
 
 ```{r}
 # in case you want visual confirmation that code worked
-TP_Processed<- read.csv("./processed_data/TP/TP_processed.csv")
-NN_Processed<- read.csv("./processed_data/NN/NN_processed.csv")
-EB_Processed<- read.csv("./processed_data/EB/EB_processed.csv")
-SB_Processed<- read.csv("./processed_data/SB/SB_Processed.csv")
+TP_Processed<- read.csv("./processed_data/TP/TP_processed_CR800.csv")
+NN_Processed<- read.csv("./processed_data/NN/NN_processed_CR800.csv")
+EB_Processed<- read.csv("./processed_data/EB/EB_processed_CR800.csv")
+SB_Processed<- read.csv("./processed_data/SB/SB_Processed_CR800.csv")
 ```
 
