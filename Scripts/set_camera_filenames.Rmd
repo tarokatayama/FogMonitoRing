@@ -1,0 +1,46 @@
+---
+title: "Set correct filename and .avi extension for camera data"
+author: "Brent Wilder & Taro Katayama"
+date: '2022-06-21'
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#run packages
+library(dplyr)
+library(plyr)
+library(tidyverse)
+library(lubridate)
+library(readr)
+library(janitor)
+```
+
+```{r}
+getwd()
+setwd()
+
+# Loop through each camera
+cameras = list("AF", "CM")
+for(i in cameras){
+
+  # Create a list of all the images for camera , i
+  path <-  paste("./raw_data/",i,"/", sep = "")
+  img_files <- list.files(path = path,
+              pattern="*.TLS", 
+              full.names = TRUE)
+
+    # Loop through each image (j) in camera (i)
+    for (j in img_files){
+  
+    # Copy the files over to processed dir
+    pathend <- paste("./processed_data/",i,"/",
+                     format(file.info(j)$mtime,"%Y-%m-%d"),".avi", sep = "")
+    file.copy(from = j, to = pathend)
+ 
+    }
+}
+
+```
+
