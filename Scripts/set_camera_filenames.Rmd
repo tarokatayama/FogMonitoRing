@@ -35,7 +35,7 @@ for(i in cameras){
     for (j in img_files){
   
     # Copy the files over to processed dir
-    pathend <- paste("./processed_data/",i,"/",
+    pathend <- paste("./processed_data/",i,"/",i,"_",
                      format(file.info(j)$mtime,"%Y-%m-%d"),".avi", sep = "")
     file.copy(from = j, to = pathend)
  
