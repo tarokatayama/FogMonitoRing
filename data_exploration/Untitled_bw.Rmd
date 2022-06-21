@@ -15,7 +15,7 @@ library(lubridate)
 
 ```{r}
 
-theday <- '2022-06-9'
+theday <- '2022-06-7'
 
 SB_Processed<- read.csv("./processed_data/SB/SB_processed_CR800.csv")
 SB_6_7<-SB_Processed%>%
@@ -38,9 +38,9 @@ NN_6_7<-NN_Processed%>%
   filter(day==theday)
 
 compareplot<- ggplot()+
-  geom_line(data = EB_6_7, aes(x = RECORD, y = LWmV_50ft_Avg))+
-  geom_point(data= EB_6_7, aes(x = RECORD, y = LWmV_66ft_Avg)) +
-  geom_line(data= EB_6_7, aes(x = RECORD, y = LWmV_17ft_Avg, color="red"))+
+  geom_line(data = NN_6_7, aes(x = RECORD, y = LWmV_50ft_Avg))+
+  geom_point(data= NN_6_7, aes(x = RECORD, y = LWmV_66ft_Avg)) +
+  geom_line(data= NN_6_7, aes(x = RECORD, y = LWmV_17ft_Avg, color="red"))+
   theme(axis.text.x = element_text(angle = 90))
 
 compareplot
