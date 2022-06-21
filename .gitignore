@@ -5,4 +5,8 @@
 .Ruserdata
 =======
 .Rproj.user/
+./raw_data/AF*
+./raw_data/CM*
+./processed_data/AF*
+./processed_data/CM*
 >>>>>>> df34431f7f1d2e516a5ec4dd3062610f5455e52b
