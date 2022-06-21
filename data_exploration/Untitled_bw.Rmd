@@ -15,33 +15,72 @@ library(lubridate)
 
 ```{r}
 
-theday <- '2022-06-7'
+theday <- '2022-06-20'
 
 SB_Processed<- read.csv("./processed_data/SB/SB_processed_CR800.csv")
+SB_Processed$TIMESTAMP<- as.POSIXct(SB_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
 SB_6_7<-SB_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
 
 TP_Processed<- read.csv("./processed_data/TP/TP_processed_CR800.csv")
+TP_Processed$TIMESTAMP<- as.POSIXct(TP_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
 TP_6_7<-TP_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
 
 EB_Processed<- read.csv("./processed_data/EB/EB_processed_CR800.csv")
+EB_Processed$TIMESTAMP<- as.POSIXct(EB_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
 EB_6_7<-EB_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
 
 NN_Processed<- read.csv("./processed_data/NN/NN_processed_CR800.csv")
+NN_Processed$TIMESTAMP<- as.POSIXct(NN_Processed$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
 NN_6_7<-NN_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
 
 compareplot<- ggplot()+
-  geom_line(data = NN_6_7, aes(x = RECORD, y = LWmV_50ft_Avg))+
-  geom_point(data= NN_6_7, aes(x = RECORD, y = LWmV_66ft_Avg)) +
-  geom_line(data= NN_6_7, aes(x = RECORD, y = LWmV_17ft_Avg, color="red"))+
-  theme(axis.text.x = element_text(angle = 90))
-
+  geom_line(data = TP_6_7, aes(x = TIMESTAMP, y = LWmV_50ft_Avg))+
+  geom_point(data= SB_6_7, aes(x = TIMESTAMP, y = LWmV_50ft_Avg)) +
+  geom_line(data= NN_6_7, aes(x = TIMESTAMP, y = LWmV_17ft_Avg, color="red"))+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_bw()+
+  theme(legend.position = "right")
 compareplot
+
+winddirplot<- ggplot()+
+  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
+  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_bw()
+winddirplot
+
+windspeedplot<- ggplot()+
+  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=WS_ms_Avg))+
+  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=WS_ms_Avg))+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_bw()
+
+windspeedplot
+
+rhplot<- ggplot()+
+  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=RH_Avg))+
+  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=RH_Avg))+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_bw()
+
+rhplot
+
+tempplot<- ggplot()+
+  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=AirT_C_Avg))+
+  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=AirT_C_Avg))+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_bw()
+  tempplot
 ```
