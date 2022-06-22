@@ -39,14 +39,6 @@ for(i in stations){
   # get rid of empty rows
   df<- subset(df, RECORD >= 0)
   
-  # set TIMESTAMP to datetime data type
-  df$TIMESTAMP<- strptime(df$TIMESTAMP, 
-                            format = "%Y-%m-%d %H:%M")
-  
-  #df$TIMESTAMP<- as.POSIXct(df$TIMESTAMP, 
-                                    #tz="PST", 
-                            #format = "%Y-%m-%d %H:%M")
-  
   # save files to processed folder
   write.csv(df, file = paste("./processed_data/",i,"/",i,"_processed_CR800.csv", sep = ""))
   
