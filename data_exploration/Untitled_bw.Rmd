@@ -11,6 +11,10 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(lubridate)
+#install.packages('gganimate')
+#install.packages('gifski')
+library(gganimate)
+library(gifski)
 ```
 
 ```{r}
@@ -49,45 +53,19 @@ All_Sites_Day<- All_Sites%>%
 ```
 
 
-```{r eval=FALSE, include=FALSE}
-SB_Processed$TIMESTAMP<- as.POSIXct(SB_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
-SB_day<-SB_Processed%>%
-  mutate(day=date(TIMESTAMP))%>%
-  filter(day==theday)
-
-TP_Processed<- read.csv("./processed_data/TP/TP_processed_CR800.csv")
-TP_Processed$TIMESTAMP<- as.POSIXct(TP_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
-TP_day<-TP_Processed%>%
-  mutate(day=date(TIMESTAMP))%>%
-  filter(day==theday)
-
-EB_Processed<- read.csv("./processed_data/EB/EB_processed_CR800.csv")
-EB_Processed$TIMESTAMP<- as.POSIXct(EB_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
-EB_day<-EB_Processed%>%
-  mutate(day=date(TIMESTAMP))%>%
-  filter(day==theday)
-
-NN_Processed<- read.csv("./processed_data/NN/NN_processed_CR800.csv")
-NN_Processed$TIMESTAMP<- as.POSIXct(NN_Processed$TIMESTAMP, 
-                                    tz="", format = "%Y-%m-%d %H:%M")
-NN_day<-NN_Processed%>%
-  mutate(day=date(TIMESTAMP))%>%
-  filter(day==theday)
-```
-
-
 ```{r}
 LWS_All_Sites_Plot<- ggplot(All_Sites_Day)+
-  geom_line(aes(x= TIMESTAMP, y= LWmV_50ft_Avg, color=Station))+
+  geom_line(aes(x= TIMESTAMP, y= LWmV_66ft_Avg, color=Station))+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90))+
   labs(x="June 20th", y="Leaf Wetness Sensor (mV)")+
   theme(legend.position = "bottom")
+  
+animateplot<- LWS_All_Sites_Plot+ transition_reveal(TIMESTAMP)
+animate(animateplot)
+anim_save('LWS_06_20.gif')
 
-?scale_x_datetime
+
 
 LWS_All_Sites_Plot
 ```
@@ -120,6 +98,14 @@ Weather_Function <- function(dataset, the_day, xvar, yvar){
   theme(axis.text.x = element_text(angle = 90))
 }
 
-Weather_Function(All_Sites, '2022-06-20','TIMESTAMP', 'WindDir_D1_WVT')
+Weather_Function(All_Sites, '2022-06-20','TIMESTAMP', 'LWmV_66ft_Avg')
 
+#different variables
+'WindDir_D1_WVT'
+'AirT_C_Avg'
+'RH_Avg'
+'LWmV_17ft_Avg'
+'LWmV_50ft_Avg'
+'LWmV_66ft_Avg'
+'WS_ms_Avg'
 ```
