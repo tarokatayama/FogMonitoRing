@@ -33,10 +33,16 @@ NN_Processed<- NN_Processed%>%
   mutate(Station="New_New")
 
 All_Sites<- rbind(SB_Processed, TP_Processed, EB_Processed, NN_Processed)
-  
+
+All_Sites$TIMESTAMP<- as.POSIXct(All_Sites$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
+
 All_Sites_Day<- All_Sites%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
+
+All_Sites_Day$TIMESTAMP<- as.POSIXct(All_Sites_Day$TIMESTAMP, 
+                                    tz="", format = "%Y-%m-%d %H:%M")
 ```
 
 
@@ -71,9 +77,8 @@ NN_day<-NN_Processed%>%
 
 
 ```{r}
-LWS_All_Sites_Plot<- ggplot(All_Sites_Day, aes(x= TIMESTAMP, y= LWmV_50ft_Avg, color=Station))+
-  geom_point()+
-  #scale_x_datetime(date_labels = "%Y-%m-%d %H:%M")+
+LWS_All_Sites_Plot<- ggplot(All_Sites_Day)+
+  geom_line(aes(x= TIMESTAMP, y= LWmV_50ft_Avg, color=Station))+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90))
 
@@ -88,13 +93,37 @@ compareplot<- ggplot()+
   geom_line(data = TP_day, aes(x = TIMESTAMP, y = LWmV_50ft_Avg))+
   geom_point(data= SB_day, aes(x = TIMESTAMP, y = LWmV_50ft_Avg)) +
   geom_line(data= NN_day, aes(x = TIMESTAMP, y = LWmV_17ft_Avg), color="red")+
-  
   theme(axis.text.x = element_text(angle = 90))+
   theme_bw()+
   labs(x="June 20th", y="Leaf Wetness Sensor (mV)")+
   theme(legend.position = "right")
 compareplot
+```
 
+
+```{r}
+
+Weather_Function <- function(dataset, the_day, xvar, yvar){
+  
+  xvar <- dataset$paste(xvar)
+  yvar <- dataset$paste(xyvar)
+  
+  dataset%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day==the_day)
+
+  ggplot(data = dataset, aes(x = xvar, y = yvar, color = Station))+
+  geom_line()+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90))
+}
+
+Weather_Function(All_Sites, '2022-06-20','TIMESTAMP', 'WindDir_D1_WVT')
+
+```
+
+
+```{r}
 winddirplot<- ggplot()+
   geom_line(data= NN_day, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
   geom_point(data= SB_day, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
