@@ -14,72 +14,113 @@ library(lubridate)
 ```
 
 ```{r}
-
 theday <- '2022-06-20'
 
 SB_Processed<- read.csv("./processed_data/SB/SB_processed_CR800.csv")
+SB_Processed<- SB_Processed%>%
+  mutate(Station="Spicy_Bunker")
+
+TP_Processed<- read.csv("./processed_data/TP/TP_processed_CR800.csv")
+TP_Processed<- TP_Processed%>%
+  mutate(Station="Tide_Pool")
+
+EB_Processed<- read.csv("./processed_data/EB/EB_processed_CR800.csv")
+EB_Processed<- EB_Processed%>%
+  mutate(Station="Event_Bluff")
+
+NN_Processed<- read.csv("./processed_data/NN/NN_processed_CR800.csv")
+NN_Processed<- NN_Processed%>%
+  mutate(Station="New_New")
+
+All_Sites<- rbind(SB_Processed, TP_Processed, EB_Processed, NN_Processed)
+  
+All_Sites_Day<- All_Sites%>%
+  mutate(day=date(TIMESTAMP))%>%
+  filter(day==theday)
+```
+
+
+```{r eval=FALSE, include=FALSE}
 SB_Processed$TIMESTAMP<- as.POSIXct(SB_Processed$TIMESTAMP, 
                                     tz="", format = "%Y-%m-%d %H:%M")
-SB_6_7<-SB_Processed%>%
+SB_day<-SB_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
 
 TP_Processed<- read.csv("./processed_data/TP/TP_processed_CR800.csv")
 TP_Processed$TIMESTAMP<- as.POSIXct(TP_Processed$TIMESTAMP, 
                                     tz="", format = "%Y-%m-%d %H:%M")
-TP_6_7<-TP_Processed%>%
+TP_day<-TP_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
 
 EB_Processed<- read.csv("./processed_data/EB/EB_processed_CR800.csv")
 EB_Processed$TIMESTAMP<- as.POSIXct(EB_Processed$TIMESTAMP, 
                                     tz="", format = "%Y-%m-%d %H:%M")
-EB_6_7<-EB_Processed%>%
+EB_day<-EB_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
 
 NN_Processed<- read.csv("./processed_data/NN/NN_processed_CR800.csv")
 NN_Processed$TIMESTAMP<- as.POSIXct(NN_Processed$TIMESTAMP, 
                                     tz="", format = "%Y-%m-%d %H:%M")
-NN_6_7<-NN_Processed%>%
+NN_day<-NN_Processed%>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==theday)
+```
 
+
+```{r}
+LWS_All_Sites_Plot<- ggplot(All_Sites_Day, aes(x= TIMESTAMP, y= LWmV_50ft_Avg, color=Station))+
+  geom_point()+
+  #scale_x_datetime(date_labels = "%Y-%m-%d %H:%M")+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90))
+
+?scale_x_datetime
+
+LWS_All_Sites_Plot
+```
+
+
+```{r}
 compareplot<- ggplot()+
-  geom_line(data = TP_6_7, aes(x = TIMESTAMP, y = LWmV_50ft_Avg))+
-  geom_point(data= SB_6_7, aes(x = TIMESTAMP, y = LWmV_50ft_Avg)) +
-  geom_line(data= NN_6_7, aes(x = TIMESTAMP, y = LWmV_17ft_Avg, color="red"))+
+  geom_line(data = TP_day, aes(x = TIMESTAMP, y = LWmV_50ft_Avg))+
+  geom_point(data= SB_day, aes(x = TIMESTAMP, y = LWmV_50ft_Avg)) +
+  geom_line(data= NN_day, aes(x = TIMESTAMP, y = LWmV_17ft_Avg), color="red")+
+  
   theme(axis.text.x = element_text(angle = 90))+
   theme_bw()+
+  labs(x="June 20th", y="Leaf Wetness Sensor (mV)")+
   theme(legend.position = "right")
 compareplot
 
 winddirplot<- ggplot()+
-  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
-  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
+  geom_line(data= NN_day, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
+  geom_point(data= SB_day, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
   theme(axis.text.x = element_text(angle = 90))+
   theme_bw()
 winddirplot
 
 windspeedplot<- ggplot()+
-  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=WS_ms_Avg))+
-  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=WS_ms_Avg))+
+  geom_line(data= NN_day, aes(x= TIMESTAMP, y=WS_ms_Avg))+
+  geom_point(data= SB_day, aes(x= TIMESTAMP, y=WS_ms_Avg))+
   theme(axis.text.x = element_text(angle = 90))+
   theme_bw()
 
 windspeedplot
 
 rhplot<- ggplot()+
-  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=RH_Avg))+
-  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=RH_Avg))+
-  theme(axis.text.x = element_text(angle = 90))+
-  theme_bw()
+  geom_line(data= NN_day, aes(x= TIMESTAMP, y=RH_Avg))+
+  geom_point(data= SB_day, aes(x= TIMESTAMP, y=RH_Avg))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90))
 
 rhplot
 
 tempplot<- ggplot()+
-  geom_line(data= NN_6_7, aes(x= TIMESTAMP, y=AirT_C_Avg))+
-  geom_point(data= SB_6_7, aes(x= TIMESTAMP, y=AirT_C_Avg))+
+  geom_line(data= NN_day, aes(x= TIMESTAMP, y=AirT_C_Avg))+
+  geom_point(data= SB_day, aes(x= TIMESTAMP, y=AirT_C_Avg))+
   theme(axis.text.x = element_text(angle = 90))+
   theme_bw()
   tempplot
