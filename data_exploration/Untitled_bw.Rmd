@@ -109,50 +109,17 @@ compareplot
 ```{r}
 
 Weather_Function <- function(dataset, the_day, xvar, yvar){
-  
-  dataset%>%
+
+  dataset <- dataset %>%
   mutate(day=date(TIMESTAMP))%>%
   filter(day==the_day)
 
-  ggplot(data = dataset, aes(x = xvar, y = yvar, color = Station))+
+  ggplot(data = dataset, aes(x = get(xvar), y = get(yvar), color = Station))+
   geom_line()+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90))
 }
 
-Weather_Function(All_Sites, '2022-06-20',All_Sites$TIMESTAMP, All_Sites$WindDir_D1_WVT)
+Weather_Function(All_Sites, '2022-06-20','TIMESTAMP', 'WindDir_D1_WVT')
 
-```
-
-
-```{r}
-winddirplot<- ggplot()+
-  geom_line(data= NN_day, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
-  geom_point(data= SB_day, aes(x= TIMESTAMP, y=WindDir_D1_WVT))+
-  theme(axis.text.x = element_text(angle = 90))+
-  theme_bw()
-winddirplot
-
-windspeedplot<- ggplot()+
-  geom_line(data= NN_day, aes(x= TIMESTAMP, y=WS_ms_Avg))+
-  geom_point(data= SB_day, aes(x= TIMESTAMP, y=WS_ms_Avg))+
-  theme(axis.text.x = element_text(angle = 90))+
-  theme_bw()
-
-windspeedplot
-
-rhplot<- ggplot()+
-  geom_line(data= NN_day, aes(x= TIMESTAMP, y=RH_Avg))+
-  geom_point(data= SB_day, aes(x= TIMESTAMP, y=RH_Avg))+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90))
-
-rhplot
-
-tempplot<- ggplot()+
-  geom_line(data= NN_day, aes(x= TIMESTAMP, y=AirT_C_Avg))+
-  geom_point(data= SB_day, aes(x= TIMESTAMP, y=AirT_C_Avg))+
-  theme(axis.text.x = element_text(angle = 90))+
-  theme_bw()
-  tempplot
 ```
