@@ -98,7 +98,7 @@ Weather_Function <- function(dataset, the_day, xvar, yvar){
   theme(axis.text.x = element_text(angle = 90))
 }
 
-Weather_Function(All_Sites, '2022-06-20','TIMESTAMP', 'LWmV_66ft_Avg')
+Weather_Function(All_Sites, '2022-06-27','TIMESTAMP', 'LWmV_66ft_Avg')
 
 #different variables
 'WindDir_D1_WVT'
