@@ -106,11 +106,16 @@ LWS_All_Sites_Plot
 ```
 
 ```{r}
-ggplot(All_Sites_Processed,
-       aes(x = TIMESTAMP, y = as.factor(Station), height=LWmV_66ft_Avg, fill = Station))+
-  geom_ridgeline() +
+
+processed2 <- All_Sites_Processed %>%
+  mutate(Station = as_factor(Station))
+
+processed2$Station <- as.factor(processed2$Station)
+
+ggplot(data = processed2) +
+  geom_ridgeline(aes(x = TIMESTAMP, y = Station, height = (LWmV_66ft_Avg - min(LWmV_66ft_Avg)),  fill = Station)) + 
   #facet_wrap(~day)+
-  #scale_y_discrete()+
+  scale_y_discrete()+
   scale_x_datetime(breaks = "1 day")+
   scale_color_manual(values = cal_palette("chaparral2"))+
   tarotheme+
