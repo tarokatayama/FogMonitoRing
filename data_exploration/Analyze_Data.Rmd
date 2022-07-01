@@ -20,6 +20,8 @@ library(ggdark)
 #install.packages("remotes")
 #remotes::install_github("an-bui/calecopal")
 library(calecopal)
+#install.packages('ggridges')
+library(ggridges)
 ```
 
 ```{r}
@@ -105,14 +107,17 @@ LWS_All_Sites_Plot
 
 ```{r}
 ggplot(All_Sites_Processed,
-       aes(x = TIMESTAMP, y = LWmV_66ft_Avg, color = Station))+
-  geom_line(size=.4) +
+       aes(x = TIMESTAMP, y = as.factor(Station), height=LWmV_66ft_Avg, fill = Station))+
+  geom_ridgeline() +
   #facet_wrap(~day)+
-  scale_y_continuous()+
+  #scale_y_discrete()+
   scale_x_datetime(breaks = "1 day")+
   scale_color_manual(values = cal_palette("chaparral2"))+
   tarotheme+
   theme(axis.text.x = element_text(angle = 90))
+
+
+?geom_ridgeline
 
 ```
 
