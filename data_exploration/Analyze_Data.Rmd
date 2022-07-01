@@ -23,13 +23,17 @@ library(calecopal)
 ```
 
 ```{r}
-tarotheme<- dark_theme_bw()+theme(text = element_text(size = 10),
+tarotheme<- dark_theme_bw()+theme(text = element_text(size = 11),
                                   panel.spacing = unit(0.5, 'lines'),
                                   strip.background = element_blank(),
                                   strip.text = element_text(size = 8, hjust = 0),
                                   strip.placement = 'outside',
-                                  panel.grid.minor = element_line(color= 'grey'))
-                                  #panel.grid.major = element_line(color = 'grey'))
+                                  #panel.grid.minor = element_line(color= 'grey'),
+                                  panel.grid.major = element_line(color = 'grey'))
+```
+
+```{r}
+
 ```
 
 
@@ -81,13 +85,13 @@ LWS_All_Sites_Plot<- ggplot(All_Sites_Day,
                                 y= LWmV_66ft_Avg, 
                                 color=Station)) +
   geom_line(size=01.5) +
-  #scale_x_datetime(breaks = "2 hours")+
-  theme(axis.text.x = element_text(angle = 90))+
+  scale_x_datetime(breaks = "4 hours", date_labels = "%H:%M")+
   labs(x="June 20th", y="Leaf Wetness Sensor (mV)")+
   theme(legend.position = "bottom")+
   scale_color_manual(values = cal_palette(name="dudleya", n=4, 
                                           type = "continuous"))+
-  tarotheme
+  tarotheme+
+  theme(axis.text.x = element_text(angle = 90))
 
 LWS_All_Sites_Plot
 
@@ -99,30 +103,17 @@ anim_save('LWS_06_20.gif')
 LWS_All_Sites_Plot
 ```
 
-
-```{r}
-compareplot<- ggplot()+
-  geom_line(data = TP_day, aes(x = TIMESTAMP, y = LWmV_50ft_Avg))+
-  geom_point(data= SB_day, aes(x = TIMESTAMP, y = LWmV_50ft_Avg)) +
-  geom_line(data= NN_day, aes(x = TIMESTAMP, y = LWmV_17ft_Avg), color="red")+
-  theme(axis.text.x = element_text(angle = 90))+
-  theme_bw()+
-  labs(x="June 20th", y="Leaf Wetness Sensor (mV)")+
-  theme(legend.position = "right")
-compareplot
-```
-
 ```{r}
 ggplot(All_Sites_Processed,
-       aes(x = hour, y = LWmV_66ft_Avg, color = Station))+
-  geom_point(size=.4) +
-  facet_wrap(~day)+
+       aes(x = TIMESTAMP, y = LWmV_66ft_Avg, color = Station))+
+  geom_line(size=.4) +
+  #facet_wrap(~day)+
   scale_y_continuous()+
-  theme(axis.text.x = element_text(angle = 90))+
+  scale_x_datetime(breaks = "1 day")+
   scale_color_manual(values = cal_palette("chaparral2"))+
-  tarotheme
+  tarotheme+
+  theme(axis.text.x = element_text(angle = 90))
 
-names(cal_palettes)
 ```
 
 
