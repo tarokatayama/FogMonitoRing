@@ -1,0 +1,20 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+library(tidyverse)
+install.packages('DBI')
+library(DBI)
+install.packages('RSQLite')
+library(RSQLite)
+mydb<- dbConnect(RSQLite::SQLite(), "./raw_data/weewx_test.sdb")
+mydb
+dbListTables(mydb)
+dbReadTable(mydb, "archive_day_outHumidity")
+```
+
