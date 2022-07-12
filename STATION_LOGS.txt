@@ -6,3 +6,4 @@ STATION LOGS
 2022-06-15: Two weather cameras installed, Cholla Minefield (CM) and Andrew's Finest (AF)
 2022-06-17: EB LWS (50ft and 66ft), TP LWS (17ft), and NN LWS (17ft and 50ft) were raised to sit on top of the lemonade berry canopy
 2022-06-22: AF moved behind LE office. Solar panel adjusted for wind.
+2022-07-07: EB Davis w/MeteoPi meteorological instrument installed 
