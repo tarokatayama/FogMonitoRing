@@ -1,0 +1,58 @@
+---
+title: "Clean Weewx Data"
+author: "Brent Wilder and Taro Katayama"
+date: '2022-07-14'
+output: html_document
+---
+
+```{r}
+#run packages
+library(dplyr)
+library(plyr)
+library(tidyverse)
+library(lubridate)
+library(readr)
+library(janitor)
+library(RSQLite)
+library(DBI)
+```
+
+```{r}
+
+getwd()
+setwd()
+
+# User input here!!
+input <- './raw_data/EB_Davis/20220711_weewx.sdb'
+output <- 'EB_Davis' # EB_Davis or TP_Davis
+
+## connect to db
+db <- dbConnect(drv=RSQLite::SQLite(), dbname = filename )
+
+# Merge all SQL tables into one dataframe
+weewx <- lapply(setNames(nm = dbListTables(db)), dbReadTable, conn = db)
+
+# Close database
+dbDisconnect(db)
+
+# save file to processed folder
+write.csv(weewx, file = paste("./processed_data/",output,"/",output,"_processed_WEEWX.csv", sep = ""))
+
+# Open CSv as a datatable
+df = read.csv(paste("./processed_data/",output,"/",output,"_processed_WEEWX.csv", sep = ""))
+
+# Get only the columns with data
+id<-c("X","archive.dateTime","archive.usUnits","archive.appTemp","archive.barometer",
+      "archive.cloudbase", "archive.dewpoint", "archive.heatindex","archive.humidex",
+      "archive.inDewpoint", "archive.inHumidity", "archive.inTemp", "archive.outHumidity",
+      "archive.outTemp", "archive.rain", "archive.rainRate", "archive.rxCheckPercent",
+      "archive.windchill", "archive.windDir", "archive.windGust", "archive.windGustDir",
+      "archive.windrun", "archive.windSpeed")
+df<-df[, id]
+
+# save file to processed folder
+write.csv(df, file = paste("./processed_data/",output,"/",output,"_processed_WEEWX.csv", sep = ""))
+  
+
+```
+
