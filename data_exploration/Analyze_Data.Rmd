@@ -29,13 +29,14 @@ library(xts)
 ```
 
 ```{r}
-tarotheme<- dark_theme_bw()+theme(text = element_text(size = 11),
+tarotheme<- dark_theme_bw()+theme(text = element_text(size = 16),
                                   panel.spacing = unit(0.5, 'lines'),
                                   strip.background = element_blank(),
-                                  strip.text = element_text(size = 8, hjust = 0),
+                                  strip.text = element_text(size = 11, hjust = 0.5),
                                   strip.placement = 'outside',
                                   #panel.grid.minor = element_line(color= 'grey'),
-                                  panel.grid.major = element_line(color = 'grey'))
+                                  panel.grid.major = element_line(color = 'grey'),
+                                  legend.text=element_text(size=12))
 ```
 
 ```{r}
@@ -118,14 +119,16 @@ p<- dygraph(time)
 p
 
 ggplot(All_Sites_Processed,
-       aes(x = TIMESTAMP, y=LWmV_66ft_Avg, color=Station))+
-  geom_line()+
-  #facet_wrap(~day)+
-  #scale_y_discrete()+
-  scale_x_datetime(breaks = "1 day")+
-  scale_color_manual(values = cal_palette("chaparral2"))+
-  tarotheme+
-  theme(axis.text.x = element_text(angle = 90))
+       aes(x = hour, y=LWmV_66ft_Avg, color=Station))+
+  geom_point()+
+  #geom_hline(yintercept = 300, color="red",size=0.5)+
+  facet_wrap(~day)+
+  scale_y_continuous()+
+  labs(x="Hour of Day", y="Millivolts (Wetness)")+
+  #scale_x_datetime(breaks = " 3")+
+  #scale_color_manual(values = cal_palette("chaparral2"))+
+  tarotheme
+  #theme(axis.text.x = element_text(angle = 90))
 
 
 ?geom_density_ridges
