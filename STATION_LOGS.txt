@@ -8,3 +8,4 @@ STATION LOGS
 2022-06-22: AF moved behind LE office. Solar panel adjusted for wind.
 2022-07-07: EB Davis w/MeteoPi meteorological instrument installed 
 2022-07-14: EB MeteoPi uninstalled... reprogramming stations to be 10min intervals
+2022-07-18: EB & TP Davis w/MeteoPi installed with 10min intervals
