@@ -9,3 +9,4 @@ STATION LOGS
 2022-07-07: EB Davis w/MeteoPi meteorological instrument installed 
 2022-07-14: EB MeteoPi uninstalled... reprogramming stations to be 10min intervals
 2022-07-18: EB & TP Davis w/MeteoPi installed with 10min intervals
+2022-07-19: EB MeteoPi Davis clock was 30 minutes off. Fixed in office and redeployed ~1:45PM. 
