@@ -22,14 +22,14 @@ library(DBI)
 ```{r}
 
 getwd()
-setwd()
+setwd('C:/Users/kenne/OneDrive/Documents/Code/FogMonitoRing')
 
 # User input here!!
-input <- './raw_data/EB_Davis/20220711_weewx.sdb'
-output <- 'EB_Davis' # EB_Davis or TP_Davis
+input <- './raw_data/TP_Davis/20220721_weewx.sdb'
+output <- 'TP_Davis' # EB_Davis or TP_Davis
 
 ## connect to db
-db <- dbConnect(drv=RSQLite::SQLite(), dbname = filename )
+db <- dbConnect(drv=RSQLite::SQLite(), dbname = input )
 
 # Merge all SQL tables into one dataframe
 weewx <- lapply(setNames(nm = dbListTables(db)), dbReadTable, conn = db)
@@ -52,8 +52,8 @@ id<-c("X","archive.dateTime","archive.usUnits","archive.appTemp","archive.barome
       "archive.windrun", "archive.windSpeed")
 df<-df[, id]
 
-EB_Davis<- df%>%
-  mutate(Date=as.POSIXct(EB_Davis$archive.dateTime, origin="1970-01-01"))%>%
+df<- df%>%
+  mutate(Date=as.POSIXct(df$archive.dateTime, origin="1970-01-01"))%>%
   mutate(Day=date(Date),
          Hour=hour(Date))
 

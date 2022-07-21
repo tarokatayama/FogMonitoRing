@@ -11,3 +11,5 @@ STATION LOGS
 2022-07-18: EB & TP Davis w/MeteoPi installed with 10min intervals
 2022-07-19: EB MeteoPi Davis clock was 30 minutes off. Fixed in office and redeployed ~1:45PM.
 2022-07-20: SC115 2GB storage devices installed at EB & SB with 10min record intervals
+2022-07-21: SC115 2GB storage devices installed at NN & TP with 10min record intervals
+2022-07-21: TP MeteoPi not transferring data and .SDB corrupt. Took back to office.
