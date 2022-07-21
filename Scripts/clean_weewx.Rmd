@@ -52,26 +52,15 @@ id<-c("X","archive.dateTime","archive.usUnits","archive.appTemp","archive.barome
       "archive.windrun", "archive.windSpeed")
 df<-df[, id]
 
-#Convert to metric
-df<-df%>%
-  mutate(outTempC=(archive.outTemp-32)/(1.8),
-         rainmm=(archive.rain*25.4),
-         WindGustkph=(archive.windGust*1.609),
-         WindSpeedkph=(archive.windSpeed*1.609),
-         WindchillC=(archive.windchill-32)/(1.8))
-
-# save file to processed folder
-write.csv(df, file = paste("./processed_data/",output,"/",output,"_processed_WEEWX.csv", sep = ""))
-  
-EB_Davis<-read.csv("./processed_data/EB_Davis/EB_Davis_processed_WEEWX.csv")
-```
-
-```{r}
-EB_Davis<-read.csv("./processed_data/EB_Davis/EB_Davis_processed_WEEWX.csv")
-
-EB_Davis<- EB_Davis%>%
+EB_Davis<- df%>%
   mutate(Date=as.POSIXct(EB_Davis$archive.dateTime, origin="1970-01-01"))%>%
   mutate(Day=date(Date),
          Hour=hour(Date))
+
+# save file to processed folder
+write.csv(df, file = paste("./processed_data/",output,"/",output,"_processed_WEEWX.csv", sep = ""))
+
 ```
+
+
 
