@@ -22,10 +22,10 @@ library(DBI)
 ```{r}
 
 getwd()
-setwd('C:/Users/kenne/OneDrive/Documents/Code/FogMonitoRing')
+setwd()
 
 # User input here!!
-input <- './raw_data/TP_Davis/20220721_weewx.sdb'
+input <- './raw_data/TP_Davis/20220726_weewx.sdb'
 output <- 'TP_Davis' # EB_Davis or TP_Davis
 
 ## connect to db
