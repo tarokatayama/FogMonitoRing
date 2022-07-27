@@ -4,3 +4,12 @@ The goal of this project is to capture the intensity and duration of summer time
 
 
 ![Admin](./Plots/admin_bld.png)
+
+## CR800 .DAT Files
+Run `clean_dat_file.Rmd` with all of the folders present in raw_data and processed_data folders ('TP','EB','NN','SB')
+
+## Davis Vantage Pro2 .SDB Files
+Install SQL Lite Studio (https://sqlitestudio.pl/) and export to a .CSV
+
+## Browning .TLS files
+Run `set_camera_filenames.Rmd` with all folders present in raw_data and processed_data ('AF','CM')
