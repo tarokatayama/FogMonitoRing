@@ -9,7 +9,7 @@ The goal of this project is to capture the intensity and duration of summer time
 Run `clean_dat_file.Rmd` with all of the folders present in raw_data and processed_data folders ('TP','EB','NN','SB')
 
 ## Davis Vantage Pro2 .SDB Files
-Install SQLite Studio (https://sqlitestudio.pl/) and export to a .CSV
+Install SQLite Studio (https://sqlitestudio.pl/) and export .archive Table to a .CSV via the "Table to export" function
 
 ## Browning .TLS files
 Run `set_camera_filenames.Rmd` with all folders present in raw_data and processed_data ('AF','CM')
